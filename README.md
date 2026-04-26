@@ -7,7 +7,7 @@ Application web fullstack permettant à des utilisateurs de publier des demandes
 ## Stack technique
 - **Backend** : Laravel 11 + Sanctum (API REST)
 - **Frontend** : Vue 3 + Vite + Pinia + Vue Router + Axios
-- **Base de données** : SQLite (dev) / MySQL (prod)
+- **Base de données** : MySQL 
 
 ---
 
@@ -36,68 +36,48 @@ npm run dev
 
 ---
 
-## Fonctionnalités
+## 🚀 Fonctionnalités
 
-### Utilisateur (Demandeur)
-- ✅ S'inscrire / Se connecter / Se déconnecter
-- ✅ Publier une demande d'aide (titre, description, budget, catégorie, urgence, deadline, lieu)
-- ✅ Modifier sa demande (uniquement si statut "open")
-- ✅ Supprimer sa demande
-- ✅ Voir la liste des offres reçues
-- ✅ Accepter une aide proposée
-- ✅ Discuter (messagerie) avec l'aidant
-- ✅ Marquer la demande comme terminée
-- ✅ Évaluer l'aidant (note 1-5 + commentaire)
-- ✅ Voir l'historique de ses demandes
+### 🔐 Authentification
+- Inscription
+- Connexion
+- Déconnexion
 
-### Utilisateur (Aidant)
-- ✅ Consulter les demandes disponibles (avec filtres)
-- ✅ Accepter une demande (envoyer une offre)
-- ✅ Contacter le demandeur (messagerie)
-- ✅ Marquer la tâche comme terminée
-- ✅ Recevoir une évaluation
-- ✅ Voir son historique de missions
+### 👤 Profil
+- Consulter son profil
+- Voir ses statistiques (demandes, missions)
+- Voir la note moyenne ⭐
+- Consulter les évaluations reçues
 
-### Profil
-- ✅ Voir ses statistiques (demandes, missions)
-- ✅ Consulter ses évaluations reçues
-- ✅ Rating moyen affiché
+### 📌 Gestion des demandes
+- Créer une demande (titre, description, budget, catégorie, urgence, deadline, lieu)
+- Modifier une demande (si statut = open)
+- Supprimer une demande (si aucune offre acceptée)
+- Consulter ses demandes
+- Voir les détails d’une demande
 
----
+### 🔍 Consultation
+- Voir toutes les demandes disponibles
+- Filtrer les demandes (catégorie, budget, urgence, lieu)
 
-## Routes API
+### 📩 Offres
+- Envoyer une offre pour une demande
+- Consulter les offres d’une demande
+- Accepter une offre
+- Refuser une offre
 
-| Méthode | Route | Description |
-|---------|-------|-------------|
-| POST | `/api/login` | Connexion |
-| POST | `/api/register` | Inscription |
-| POST | `/api/logout` | Déconnexion |
-| GET | `/api/me` | Utilisateur connecté |
-| GET | `/api/requests` | Demandes ouvertes |
-| POST | `/api/requests` | Créer une demande |
-| GET | `/api/requests/history` | Historique utilisateur |
-| GET | `/api/requests/{id}` | Détail d'une demande |
-| PUT | `/api/requests/{id}` | Modifier une demande |
-| DELETE | `/api/requests/{id}` | Supprimer une demande |
-| POST | `/api/requests/{id}/complete` | Marquer terminée |
-| POST | `/api/offers/{requestId}` | Envoyer une offre |
-| POST | `/api/offers/{id}/accept` | Accepter une offre |
-| GET | `/api/messages/{requestId}` | Messages d'une demande |
-| POST | `/api/messages` | Envoyer un message |
-| POST | `/api/ratings` | Évaluer un aidant |
-| GET | `/api/ratings/received` | Évaluations reçues |
+### 💬 Messagerie
+- Envoyer et recevoir des messages
+- Discuter entre utilisateurs
+
+### ✅ Suivi
+- Marquer une demande comme terminée
+- Consulter l’historique des demandes
+- Consulter l’historique des participations
+
+### ⭐ Évaluations
+- Donner une note (1 à 5) avec commentaire
+- Recevoir des évaluations
+- Une seule évaluation par demande
 
 ---
-
-## Corrections apportées
-
-1. **`auth.js`** — Ajout de `fetchUser()`, `isAuthenticated` persistant au rechargement
-2. **`router/index.js`** — Routes `/requests/:id/edit` et `/profile` ajoutées, guard corrigé
-3. **`dashboard.vue`** — Méthodes PHP `.isOpen()` remplacées par comparaisons JS de statut
-4. **`requestdetail.vue`** — Messagerie avec expéditeur, `canChat` correct, étoiles interactives
-5. **`requestlist.vue`** — Filtres recherche/catégorie/urgence, rating affiché
-6. **`RequestController`** — Ajout `destroy()`, `show()` avec `messages.sender`
-7. **`RatingController`** — Ajout `received()`, `request_id` dans la création
-8. **`Rating` model** — `request_id` ajouté au `fillable`
-9. **Migration ratings** — `request_id` ajouté
-10. **`api.php`** — Routes `DELETE /requests/{id}` et `GET /ratings/received` ajoutées
